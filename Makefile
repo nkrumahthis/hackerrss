@@ -6,7 +6,7 @@ all: build run
 .PHONY: build
 build:
 	@echo "Building $(APP_NAME)..."
-	go build ./cmd
+	go build -o ./hackerrss ./cmd/main.go
 
 .PHONY: run
 run:
