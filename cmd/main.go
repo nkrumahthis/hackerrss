@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -28,6 +29,11 @@ type RSS struct {
 func main() {
 	fmt.Println("Hacker News")
 
+	// parse the mini flag
+	var mini bool
+	flag.BoolVar(&mini, "mini", false, "show only title and link")
+	flag.Parse()
+
 	// Fetch RSS feed
 	resp, err := http.Get("https://feeds.feedburner.com/TheHackersNews")
 	if err != nil {
@@ -47,7 +53,9 @@ func main() {
 	fmt.Println("Latest news:")
 	for _, item := range rss.Channel.Items {
 		fmt.Println("Title:", item.Title)
-		fmt.Println("Description:", item.Description)
+		if !mini {
+			fmt.Println("Description:", item.Description)
+		}
 		fmt.Println("Link:", item.Link)
 		fmt.Println()
 	}
